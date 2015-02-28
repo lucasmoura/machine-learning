@@ -34,7 +34,7 @@ class TrainingData():
 		except IOError, ValueError:
 			raise
 			
-	def add_one_column(self):
+	def add_column_of_ones(self):
 		"""
 		This method is used for making it easier to create a vectorized solution for many machine learning algorithms.
 		It will basically add a extra columns of "1" at the beginning of the X matrix

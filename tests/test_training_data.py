@@ -100,4 +100,34 @@ class TestTrainingData(unittest.TestCase):
 			self.trainingData.load_training_data(training_file,
 										 		 delimiter)
 
+	def testAddColumnsofOnes(self):
+
+		delimiter = ','
+		training_file = "./tests/test_files/training_data_more_inputs.txt"
+
+		return_value = self.trainingData.load_training_data(training_file,
+															delimiter)
+
+		expected_value = 0;
+		self.assertEqual(expected_value, return_value)
+
+		num_rows_x = self.trainingData.x.shape[0]
+
+		num_columns_x = self.trainingData.x.shape[1];
+		expected_value = 4;
 		
+		self.assertEqual(num_columns_x, expected_value)
+
+		self.trainingData.add_column_of_ones()
+
+		num_columns_x = self.trainingData.x.shape[1];
+		expected_value = 5;
+
+		self.assertEqual(expected_value, num_columns_x)
+
+		expected_value = 1.0
+		for i in range(num_rows_x):
+			self.assertEqual(expected_value, self.trainingData.x[i,0])
+
+
+
