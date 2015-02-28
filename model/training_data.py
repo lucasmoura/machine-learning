@@ -1,4 +1,4 @@
-from numpy import loadtxt, array
+from numpy import loadtxt, c_, ones
 
 class TrainingData():
 
@@ -19,6 +19,8 @@ class TrainingData():
 
 		:param dataFile: the path used to locate the training data file
 		:param delimiter: the delimiter used to separate each value on the file
+
+		:returns: A constant indicating that the file was read successfully or raise an IOError otherwise
 		"""
 		try:		
 			training_data = loadtxt(dataFile, delimiter = delimiter)
@@ -29,14 +31,13 @@ class TrainingData():
 
 			return self.FILE_LOADED_SUCCESSFULLY;
 
-		except IOError:
+		except IOError, ValueError:
 			raise
 			
-	def print_x(self):
-	   
-	   	print(self.x.shape)
-		print(self.x)
+	def add_one_column(self):
+		"""
+		This method is used for making it easier to create a vectorized solution for many machine learning algorithms.
+		It will basically add a extra columns of "1" at the beginning of the X matrix
+		"""
 
-	def print_y(self):
-		print("\n\n\nY\n\n\n")
-		print(self.y)
+		self.x = c_[ones(self.x.shape[0]), self.x]

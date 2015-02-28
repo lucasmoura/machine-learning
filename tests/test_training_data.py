@@ -74,4 +74,30 @@ class TestTrainingData(unittest.TestCase):
 		
 		self.assertEqual(num_columns_y, expected_value)
 
+	def testLoadInvalidFile(self):
 
+		delimiter = ','
+		training_file = "./tests/test_files/invalid_file.txt"
+
+		with self.assertRaises(IOError):
+			self.trainingData.load_training_data(training_file,
+											 delimiter)
+
+
+	def testLoadInvalidFormatFile(self):
+		
+		delimiter = ','
+		training_file = "./tests/test_files/wrong_format_1.txt"
+
+		with self.assertRaises(ValueError):
+			self.trainingData.load_training_data(training_file,
+										 		 delimiter)
+
+		delimiter = ','
+		training_file = "./tests/test_files/wrong_format_2.txt"
+
+		with self.assertRaises(ValueError):
+			self.trainingData.load_training_data(training_file,
+										 		 delimiter)
+
+		
