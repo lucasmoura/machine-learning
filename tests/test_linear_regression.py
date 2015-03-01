@@ -50,4 +50,36 @@ class TestLinearRegression(unittest.TestCase):
 		self.assertEqual(floor(actual_cost), floor(expected_cost))
 		self.assertTrue(actual_cost>=expected_cost)
 
+	def testCalculateGradient(self):
 
+		theta = array( [ [0], [0] ])
+		x_array = array( [ [1,2], [1,3], [1, 4] ])
+		y_array = array( [ [3], [4], [5] ])
+
+		trainingDataMock = self.createTrainingDataMock(x_array, y_array)
+
+		gradient = self.linearRegression.calculateGradient(trainingDataMock, theta)
+
+		expected_value = -4;
+		self.assertEqual(gradient[0,0], expected_value)
+
+		expected_value = -12.66
+		self.assertEqual(floor(gradient[1,0]), floor(expected_value))
+		self.assertTrue(gradient[1,0]<=expected_value)
+		
+		x_array = array( [ [1,2,3], [1,4,5]])
+		y_array = array([ [1], [2] ])
+		theta = array( [ [1], [1], [1] ])
+
+		trainingDataMock = self.createTrainingDataMock(x_array, y_array)
+
+		gradient = self.linearRegression.calculateGradient(trainingDataMock, theta)
+
+		expected_value = 6.5;
+		self.assertEqual(gradient[0,0], expected_value)
+
+		expected_value = 21
+		self.assertEqual(gradient[1,0], expected_value)
+
+		expected_value = 27.5
+		self.assertEqual(gradient[2,0], expected_value)
