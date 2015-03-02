@@ -1,3 +1,7 @@
+import os, sys
+lib_path = os.path.abspath(os.path.join('..'))
+sys.path.append(lib_path)
+
 from model.training_data import TrainingData
 from regression.linear_regression import LinearRegression
 from regression.gradient_descent import gradient_descent
@@ -8,7 +12,7 @@ def main():
 	
 	print ("Initializing data...")
 	trainingData = TrainingData()
-	trainingData.load_training_data('data/ex1data1.txt', ',')
+	trainingData.load_training_data('../data/ex1data1.txt', ',')
 
 	print("Plotting data...")
 	plb.figure()
