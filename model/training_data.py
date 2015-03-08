@@ -1,11 +1,17 @@
 from numpy import loadtxt, c_, ones
+from utils import featureNormalization
 
 class TrainingData():
 
 	FILE_LOADED_SUCCESSFULLY = 0
 
 	def __init__(self):
-		pass
+		self.x = None
+		self.y = None
+		self.x_normalized = None
+		self.mean_values = None
+		self.standard_deviation_values = None
+		self.is_normalized = False
 
 
 	def load_training_data(self, dataFile, delimiter):
@@ -37,7 +43,39 @@ class TrainingData():
 	def add_column_of_ones(self):
 		"""
 		This method is used for making it easier to create a vectorized solution for many machine learning algorithms.
-		It will basically add a extra columns of "1" at the beginning of the X matrix
+		It will basically add a extra columns of "1" at the beginning of the X matrix or the Normalized X matrix if
+		the process of normalization had already been done
 		"""
 
-		self.x = c_[ones(self.x.shape[0]), self.x]
+		if self.is_normalized:
+			self.x_normalized = c_[ones(self.x_normalized.shape[0]), self.x_normalized]
+		else:
+			self.x = c_[ones(self.x.shape[0]), self.x]
+	
+	def normalizeFeatures(self):
+
+		"""This method is used to apply feature scaling on the features laoded on the x matrix.
+		   This method also populates the attributes x_normalized, mean_values and standard_deviation_values
+
+		"""
+
+		(X_norm, mean_values, sigma_values) = featureNormalization(self.x)
+
+		self.x_normalized = X_norm
+		self.mean_values = mean_values
+		self.standard_deviation_values = sigma_values
+		self.is_normalized = True
+
+	def getXMatrix(self):
+
+		"""Method used to get the correct x matrix for the training data.
+		   If the features were regularized, the method will return
+		   the x_normalized matrix, else the x one
+		"""
+
+		if self.is_normalized:
+			return self.x_normalized
+		else:
+			return self.x
+
+			

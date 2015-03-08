@@ -16,8 +16,8 @@ class TestLinearRegression(unittest.TestCase):
 
 		trainingDataMock = MagicMock()
 
-		type(trainingDataMock).x = PropertyMock(return_value=
-												x_array)
+		trainingDataMock.getXMatrix.return_value = x_array
+
 		type(trainingDataMock).y = PropertyMock(return_value=
 												y_array)
 

@@ -31,7 +31,7 @@ class LinearRegression(Regression):
 				  the h_function and results	
 		"""
 
-		h_function = dot(trainingData.x,theta)
+		h_function = dot(trainingData.getXMatrix(),theta)
 
 		error_calc = h_function - trainingData.y;
 
@@ -40,7 +40,7 @@ class LinearRegression(Regression):
 
 	def calculateCost(self, trainingData, theta):
 
-		num_training = trainingData.x.shape[0]
+		num_training = trainingData.getXMatrix().shape[0]
 
 		error_calc = self.__calculateError(trainingData, theta)
 
@@ -52,8 +52,8 @@ class LinearRegression(Regression):
 	
 	def calculateGradient(self, trainingData, theta):
 	
-		num_training = trainingData.x.shape[0]
+		num_training = trainingData.getXMatrix().shape[0]
 
 		error_calc = self.__calculateError(trainingData, theta)
 
-		return  (dot(trainingData.x.T, error_calc))/float(num_training)
+		return  (dot(trainingData.getXMatrix().T, error_calc))/float(num_training)
