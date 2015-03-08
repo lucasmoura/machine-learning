@@ -1,24 +1,16 @@
 import unittest
-from model.training_data import TrainingData
-from regression.utils import *
+from model.utils import *
 from math import floor, sqrt
+from numpy import array
 
 class TestRegressionUtils(unittest.TestCase):
-
-	def setUp(self):
-		
-		self.trainingData = TrainingData()	
-
-		delimiter = ','
-		training_file = "./tests/test_files/training_data.txt"
-		self.trainingData.load_training_data(training_file,
-											 delimiter)
 
 	
 	def testFeatureNormalization(self):
 
+		test_array = array([[1], [3], [5], [7], [9]])
 		(X_normalized, mean_features,
-		 standard_deviation) = featureNormalization(self.trainingData.x)
+		 standard_deviation) = featureNormalization(test_array)
 
 		expectedValue = 5
 		actualValue = mean_features[0]
@@ -38,7 +30,7 @@ class TestRegressionUtils(unittest.TestCase):
 		expectedValue = [-4/sigma_value, -2/sigma_value, 0,
 						 2/sigma_value, 4/sigma_value]
 
-		size = self.trainingData.x.shape[0]
+		size = test_array.shape[0]
 
 		for i in range(size):
 			self.assertEqual(X_normalized[i, 0], expectedValue[i]) 
