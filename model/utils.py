@@ -1,4 +1,4 @@
-from numpy import mean, std
+from numpy import mean, std, vectorize, e
 
 def featureNormalization(X_inputs):
 
@@ -30,3 +30,24 @@ def featureNormalization(X_inputs):
 	X_normalized = X_normalized/standard_deviation
 
 	return (X_normalized, mean_features, standard_deviation)
+
+
+def sigmoid(x):
+
+	"""
+	This method will be used to calculate the sigmoid function.
+
+	:param x: The variable used in the sigmoid function calculation.
+			  This variable can be in a single value, or a matrix.
+			  It is worth mentioning that if x is an array or matrix, it
+			  must be a numpy.array
+
+	:returns: An array object  with the same dimensions as the x parameter. 	
+	"""
+
+	exponential_part  = vectorize(lambda x: e**(-x))(x)
+	exponential_part = 1 + exponential_part
+
+	return 1/exponential_part;
+
+
