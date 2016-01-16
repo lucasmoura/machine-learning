@@ -1,65 +1,64 @@
-import os, sys
-lib_path = os.path.abspath(os.path.join('..'))
-sys.path.append(lib_path)
-
-from model.training_data import TrainingData
-from regression.linear_regression import LinearRegression
-from regression.gradient_descent import gradient_descent
 from numpy import array, dot
 import pylab as plb
 
+import config
+from model.training_data import TrainingData
+from regression.gradient_descent import gradient_descent
+
+
 def main():
-	
-	print ("Initializing data...")
-	trainingData = TrainingData()
-	trainingData.load_training_data('../data/ex1data1.txt', ',')
 
-	print("Plotting data...")
-	plb.figure()
-	plb.plot(trainingData.x, trainingData.y, 'rx')
-	plb.show()
-	
-	trainingData.add_column_of_ones()
+    print ("Initializing data...")
+    trainingData = TrainingData()
+    trainingData.load_training_data(config.REGRESSION_DATA_HOUSE, ',')
 
-	theta = array([[0], [0]])
-	maxIter = 1500
-	learningRate = 0.01
-	regression_type = 1
+    print("Plotting data...")
+    plb.figure()
+    plb.plot(trainingData.x, trainingData.y, 'rx')
+    plb.show()
 
-	print "Perfoming linear regression"
-	(all_costs, theta) = gradient_descent(regression_type, trainingData,
-										  theta, maxIter, learningRate)
+    trainingData.add_column_of_ones()
 
-	print("Theta found: %f %f" %(theta[0], theta[1]))
-	plb.figure()
-	plb.plot(trainingData.x[:,1], trainingData.y, 'rx',
-			 label = "Training Data")
+    theta = array([[0], [0]])
+    maxIter = 1500
+    learningRate = 0.01
+    regression_type = 1
 
-	x = trainingData.x[:, 1]
-	result = dot(trainingData.x, theta)	
+    print "Perfoming linear regression"
+    (all_costs, theta) = gradient_descent(regression_type, trainingData,
+                                          theta, maxIter, learningRate)
 
-	plb.plot(x, result, label = "Linear Regression")
-	plb.legend(loc='upper left')
-	plb.show()
+    print("Theta found: %f %f" % (theta[0], theta[1]))
+    plb.figure()
+    plb.plot(trainingData.x[:, 1], trainingData.y, 'rx',
+             label="Training Data")
 
-	print ("Displaying cost during the gradient descent iteration")
-	plb.figure()
-	plb.plot(all_costs)
-	plb.show()
+    x = trainingData.x[:, 1]
+    result = dot(trainingData.x, theta)
 
-	predict1 = array([[1, 3.5]])
-	predict1 = dot(predict1,theta)
-	predict1 = predict1.sum()
+    plb.plot(x, result, label="Linear Regression")
+    plb.legend(loc='upper left')
+    plb.show()
 
-	print ("For a population = 35,000, we predict a profit of %f\n" %(predict1*10000))
+    print ("Displaying cost during the gradient descent iteration")
+    plb.figure()
+    plb.plot(all_costs)
+    plb.show()
 
-	predict2 = array([[1, 7]])
-	predict2 = dot(predict2,theta)
-	predict2 = predict2.sum()
+    predict1 = array([[1, 3.5]])
+    predict1 = dot(predict1, theta)
+    predict1 = predict1.sum()
 
+    print ("For a population = 35,000, we predict a profit of %f\n"
+           % (predict1*10000))
 
-	print("For a population = 70,000, we predict a profit of %f\n" %(predict2*10000))
+    predict2 = array([[1, 7]])
+    predict2 = dot(predict2, theta)
+    predict2 = predict2.sum()
+
+    print("For a population = 70,000, we predict a profit of %f\n"
+          % (predict2*10000))
 
 
 if __name__ == '__main__':
-	main()
+    main()
