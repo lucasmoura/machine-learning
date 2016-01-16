@@ -1,133 +1,129 @@
 import unittest
 
 from model.training_data import TrainingData
-from os import getcwd
+
 
 class TestTrainingData(unittest.TestCase):
 
-	def setUp(self):
-		self.trainingData = TrainingData()
+    def setUp(self):
+        self.trainingData = TrainingData()
 
-	def testLoadTrainingData(self):
-		
-		delimiter = ','
-		training_file = './tests/test_files/training_data.txt'
-		expected_value = 0;
+    def testLoadTrainingData(self):
 
-		return_value = self.trainingData.load_training_data(training_file,
-															delimiter)
+        delimiter = ','
+        training_file = './tests/test_files/training_data.txt'
+        expected_value = 0
 
-		self.assertEqual(0, return_value)
+        return_value = self.trainingData.load_training_data(training_file,
+                                                            delimiter)
 
-		x_size = self.trainingData.x.shape;
-		num_rows_x = x_size[0];
-		expected_value = 5; 
+        self.assertEqual(0, return_value)
 
-		self.assertEqual(num_rows_x, expected_value)
-		
-		num_columns_x = x_size[1];
-		expected_value = 1;
-		
-		self.assertEqual(num_columns_x, expected_value)
+        x_size = self.trainingData.x.shape
+        num_rows_x = x_size[0]
+        expected_value = 5
 
-		y_size = self.trainingData.y.shape;
-		num_rows_y = y_size[0]
-		expected_value = 5; 
+        self.assertEqual(num_rows_x, expected_value)
 
-		self.assertEqual(num_rows_y, expected_value)
-		
-		num_columns_y = y_size[1];
-		expected_value = 1;
-		
-		self.assertEqual(num_columns_y, expected_value)
+        num_columns_x = x_size[1]
+        expected_value = 1
 
-	def testTrainingDataWithMoreInputs(self):
+        self.assertEqual(num_columns_x, expected_value)
 
-		delimiter = ','
-		training_file = './tests/test_files/training_data_more_inputs.txt'
-		expected_value = 0;
+        y_size = self.trainingData.y.shape
+        num_rows_y = y_size[0]
+        expected_value = 5
 
-		return_value = self.trainingData.load_training_data(training_file,
-															delimiter)
+        self.assertEqual(num_rows_y, expected_value)
 
-		self.assertEqual(0, return_value)
+        num_columns_y = y_size[1]
+        expected_value = 1
 
-		x_size = self.trainingData.x.shape;
-		num_rows_x = x_size[0];
-		expected_value = 6; 
+        self.assertEqual(num_columns_y, expected_value)
 
-		self.assertEqual(num_rows_x, expected_value)
-		
-		num_columns_x = x_size[1];
-		expected_value = 4;
-		
-		self.assertEqual(num_columns_x, expected_value)
+    def testTrainingDataWithMoreInputs(self):
 
-		y_size = self.trainingData.y.shape;
-		num_rows_y = y_size[0]
-		expected_value = 6; 
+        delimiter = ','
+        training_file = './tests/test_files/training_data_more_inputs.txt'
+        expected_value = 0
 
-		self.assertEqual(num_rows_y, expected_value)
-		
-		num_columns_y = y_size[1];
-		expected_value = 1;
-		
-		self.assertEqual(num_columns_y, expected_value)
+        return_value = self.trainingData.load_training_data(training_file,
+                                                            delimiter)
 
-	def testLoadInvalidFile(self):
+        self.assertEqual(0, return_value)
 
-		delimiter = ','
-		training_file = "./tests/test_files/invalid_file.txt"
+        x_size = self.trainingData.x.shape
+        num_rows_x = x_size[0]
+        expected_value = 6
 
-		with self.assertRaises(IOError):
-			self.trainingData.load_training_data(training_file,
-											 delimiter)
+        self.assertEqual(num_rows_x, expected_value)
 
+        num_columns_x = x_size[1]
+        expected_value = 4
 
-	def testLoadInvalidFormatFile(self):
-		
-		delimiter = ','
-		training_file = "./tests/test_files/wrong_format_1.txt"
+        self.assertEqual(num_columns_x, expected_value)
 
-		with self.assertRaises(ValueError):
-			self.trainingData.load_training_data(training_file,
-										 		 delimiter)
+        y_size = self.trainingData.y.shape
+        num_rows_y = y_size[0]
+        expected_value = 6
 
-		delimiter = ','
-		training_file = "./tests/test_files/wrong_format_2.txt"
+        self.assertEqual(num_rows_y, expected_value)
 
-		with self.assertRaises(ValueError):
-			self.trainingData.load_training_data(training_file,
-										 		 delimiter)
+        num_columns_y = y_size[1]
+        expected_value = 1
 
-	def testAddColumnsofOnes(self):
+        self.assertEqual(num_columns_y, expected_value)
 
-		delimiter = ','
-		training_file = "./tests/test_files/training_data_more_inputs.txt"
+    def testLoadInvalidFile(self):
 
-		return_value = self.trainingData.load_training_data(training_file,
-															delimiter)
+        delimiter = ','
+        training_file = "./tests/test_files/invalid_file.txt"
 
-		expected_value = 0;
-		self.assertEqual(expected_value, return_value)
+        with self.assertRaises(IOError):
+                self.trainingData.load_training_data(training_file,
+                                                     delimiter)
 
-		num_rows_x = self.trainingData.x.shape[0]
+    def testLoadInvalidFormatFile(self):
 
-		num_columns_x = self.trainingData.x.shape[1];
-		expected_value = 4;
-		
-		self.assertEqual(num_columns_x, expected_value)
+        delimiter = ','
+        training_file = "./tests/test_files/wrong_format_1.txt"
 
-		self.trainingData.add_column_of_ones()
+        with self.assertRaises(ValueError):
+                self.trainingData.load_training_data(training_file,
+                                                     delimiter)
 
-		num_columns_x = self.trainingData.x.shape[1];
-		expected_value = 5;
+        delimiter = ','
+        training_file = "./tests/test_files/wrong_format_2.txt"
 
-		self.assertEqual(expected_value, num_columns_x)
+        with self.assertRaises(ValueError):
+                self.trainingData.load_training_data(training_file,
+                                                     delimiter)
 
-		expected_value = 1.0
-		for i in range(num_rows_x):
-			self.assertEqual(expected_value, self.trainingData.x[i,0])
+    def testAddColumnsofOnes(self):
 
+        delimiter = ','
+        training_file = "./tests/test_files/training_data_more_inputs.txt"
 
+        return_value = self.trainingData.load_training_data(training_file,
+                                                            delimiter)
 
+        expected_value = 0
+        self.assertEqual(expected_value, return_value)
+
+        num_rows_x = self.trainingData.x.shape[0]
+
+        num_columns_x = self.trainingData.x.shape[1]
+        expected_value = 4
+
+        self.assertEqual(num_columns_x, expected_value)
+
+        self.trainingData.add_column_of_ones()
+
+        num_columns_x = self.trainingData.x.shape[1]
+        expected_value = 5
+
+        self.assertEqual(expected_value, num_columns_x)
+
+        expected_value = 1.0
+        for i in range(num_rows_x):
+                self.assertEqual(expected_value, self.trainingData.x[i, 0])
