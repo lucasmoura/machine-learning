@@ -1,4 +1,4 @@
-from numpy import random
+from numpy import random, dot, where
 
 
 class Perceptron():
@@ -29,6 +29,16 @@ class Perceptron():
         self.inputMatrix = inputMatrix
         self.answerMatrix = answerMatrix
         self.numNeurons = numNeurons
+
+    """
+    Method used to calculate the single output value
+    of the perceptron algorithm. This method also holds
+    the threshold implementation, which verifies if a
+    neuron should fire or not.
+    """
+    def recall(self):
+        activation = dot(self.inputMatrix, self.weights)
+        return where(activation > 0, 1, 0)
 
     def trainPerceptron(self):
         pass

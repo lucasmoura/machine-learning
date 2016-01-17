@@ -1,5 +1,7 @@
 import unittest
 
+from numpy import array
+
 from perceptron.perceptron import Perceptron
 from model.training_data import TrainingData
 
@@ -28,3 +30,22 @@ class PerceptronTest(unittest.TestCase):
                          self.perceptron.weights.shape[0])
         self.assertEqual(expectedColumns,
                          self.perceptron.weights.shape[1])
+
+    def testRecall(self):
+        expectedValues = array([[1], [1], [1], [1]])
+
+        self.perceptron.weights = array([[0.5], [0.2], [-0.1]])
+
+        actualValues = self.perceptron.recall()
+
+        for i in range(actualValues.shape[0]):
+            self.assertEqual(expectedValues[i][0], actualValues[i][0])
+
+        expectedValues = array([[1], [0], [1], [1]])
+
+        self.perceptron.weights = array([[0.3], [0.2], [-0.3]])
+
+        actualValues = self.perceptron.recall()
+
+        for i in range(actualValues.shape[0]):
+            self.assertEqual(expectedValues[i][0], actualValues[i][0])
