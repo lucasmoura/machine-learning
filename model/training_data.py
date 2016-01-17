@@ -14,7 +14,7 @@ class TrainingData():
         self.standard_deviation_values = None
         self.is_normalized = False
 
-    def load_training_data(self, dataFile, delimiter):
+    def loadTrainingData(self, dataFile, delimiter):
         """
         This method is used to load the training data from a txt file.
         Currently, the testing file need to be a txt file and every line
@@ -43,7 +43,7 @@ class TrainingData():
         except IOError:
             raise
 
-    def add_column_of_ones(self):
+    def addColumnOfOnes(self):
         """
         This method is used for making it easier to create a vectorized
         solution for many machine learning algorithms. It will basically

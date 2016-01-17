@@ -14,8 +14,8 @@ class TestTrainingData(unittest.TestCase):
         training_file = './tests/test_files/training_data.txt'
         expected_value = 0
 
-        return_value = self.trainingData.load_training_data(training_file,
-                                                            delimiter)
+        return_value = self.trainingData.loadTrainingData(training_file,
+                                                          delimiter)
 
         self.assertEqual(0, return_value)
 
@@ -47,8 +47,8 @@ class TestTrainingData(unittest.TestCase):
         training_file = './tests/test_files/training_data_more_inputs.txt'
         expected_value = 0
 
-        return_value = self.trainingData.load_training_data(training_file,
-                                                            delimiter)
+        return_value = self.trainingData.loadTrainingData(training_file,
+                                                          delimiter)
 
         self.assertEqual(0, return_value)
 
@@ -80,8 +80,8 @@ class TestTrainingData(unittest.TestCase):
         training_file = "./tests/test_files/invalid_file.txt"
 
         with self.assertRaises(IOError):
-                self.trainingData.load_training_data(training_file,
-                                                     delimiter)
+                self.trainingData.loadTrainingData(training_file,
+                                                   delimiter)
 
     def testLoadInvalidFormatFile(self):
 
@@ -89,23 +89,23 @@ class TestTrainingData(unittest.TestCase):
         training_file = "./tests/test_files/wrong_format_1.txt"
 
         with self.assertRaises(ValueError):
-                self.trainingData.load_training_data(training_file,
-                                                     delimiter)
+                self.trainingData.loadTrainingData(training_file,
+                                                   delimiter)
 
         delimiter = ','
         training_file = "./tests/test_files/wrong_format_2.txt"
 
         with self.assertRaises(ValueError):
-                self.trainingData.load_training_data(training_file,
-                                                     delimiter)
+                self.trainingData.loadTrainingData(training_file,
+                                                   delimiter)
 
     def testAddColumnsofOnes(self):
 
         delimiter = ','
         training_file = "./tests/test_files/training_data_more_inputs.txt"
 
-        return_value = self.trainingData.load_training_data(training_file,
-                                                            delimiter)
+        return_value = self.trainingData.loadTrainingData(training_file,
+                                                          delimiter)
 
         expected_value = 0
         self.assertEqual(expected_value, return_value)
@@ -117,7 +117,7 @@ class TestTrainingData(unittest.TestCase):
 
         self.assertEqual(num_columns_x, expected_value)
 
-        self.trainingData.add_column_of_ones()
+        self.trainingData.addColumnOfOnes()
 
         num_columns_x = self.trainingData.x.shape[1]
         expected_value = 5
