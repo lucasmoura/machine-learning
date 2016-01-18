@@ -31,12 +31,12 @@ class PerceptronTest(unittest.TestCase):
         self.assertEqual(expectedColumns,
                          self.perceptron.weights.shape[1])
 
-    def testRecall(self):
+    def testFeedForward(self):
         expectedValues = array([[1], [1], [1], [1]])
 
         self.perceptron.weights = array([[0.5], [0.2], [-0.1]])
 
-        actualValues = self.perceptron.recall()
+        actualValues = self.perceptron.feedForward()
 
         for i in range(actualValues.shape[0]):
             self.assertEqual(expectedValues[i][0], actualValues[i][0])
@@ -45,7 +45,7 @@ class PerceptronTest(unittest.TestCase):
 
         self.perceptron.weights = array([[0.3], [0.2], [-0.3]])
 
-        actualValues = self.perceptron.recall()
+        actualValues = self.perceptron.feedForward()
 
         for i in range(actualValues.shape[0]):
             self.assertEqual(expectedValues[i][0], actualValues[i][0])

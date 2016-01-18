@@ -36,7 +36,7 @@ class Perceptron():
     the threshold implementation, which verifies if a
     neuron should fire or not.
     """
-    def recall(self):
+    def feedForward(self):
         activation = dot(self.inputMatrix, self.weights)
         return where(activation > 0, 1, 0)
 
