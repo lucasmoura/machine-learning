@@ -10,14 +10,14 @@ def main():
 
     print ("Initializing data...")
     trainingData = TrainingData()
-    trainingData.load_training_data(config.REGRESSION_DATA_HOUSE, ',')
+    trainingData.loadTrainingData(config.REGRESSION_DATA_HOUSE, ',')
 
     print("Plotting data...")
     plb.figure()
     plb.plot(trainingData.x, trainingData.y, 'rx')
     plb.show()
 
-    trainingData.add_column_of_ones()
+    trainingData.addColumnOfOnes()
 
     theta = array([[0], [0]])
     maxIter = 1500

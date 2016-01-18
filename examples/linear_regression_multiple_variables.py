@@ -10,8 +10,8 @@ def main():
     print("Loading data from ex1data2.txt")
 
     trainingData = TrainingData()
-    trainingData.load_training_data(config.REGRESSION_DATA_MULTIPLE_VARIABLE,
-                                    ',')
+    trainingData.loadTrainingData(config.REGRESSION_DATA_MULTIPLE_VARIABLE,
+                                  ',')
 
     print("\n\nPrinting 10 examples from the dataset:\n")
 
@@ -23,7 +23,7 @@ def main():
     print("\nNormalizing features ...\n")
 
     trainingData.normalizeFeatures()
-    trainingData.add_column_of_ones()
+    trainingData.addColumnOfOnes()
 
     theta_init = array([[0], [0], [0]])
     maxIter = 400
