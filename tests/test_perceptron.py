@@ -20,6 +20,10 @@ class PerceptronTest(unittest.TestCase):
     def setUp(self):
         self.perceptron = Perceptron(PerceptronTest.x, PerceptronTest.y, 1)
 
+    def compareColumnMatrix(self, expectedValues, actualValues):
+        for i in range(actualValues.shape[0]):
+            self.assertEqual(expectedValues[i][0], actualValues[i][0])
+
     def testGenerateWeights(self):
         expectedRows = 3
         expectedColumns = 1
@@ -47,5 +51,16 @@ class PerceptronTest(unittest.TestCase):
 
         actualValues = self.perceptron.feedForward()
 
-        for i in range(actualValues.shape[0]):
-            self.assertEqual(expectedValues[i][0], actualValues[i][0])
+        self.compareColumnMatrix(expectedValues, actualValues)
+
+    def testUpdateWeights(self):
+        expectedValues = array([[-1.25], [0.5], [0.2]])
+
+        self.perceptron.weights = array([[-1], [0.5], [0.2]])
+
+        answerMatrix = array([[1], [1], [1], [1]])
+        learningRate = 0.25
+
+        self.perceptron.updateWeights(answerMatrix, learningRate)
+
+        self.compareColumnMatrix(expectedValues, self.perceptron.weights)

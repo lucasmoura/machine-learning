@@ -12,15 +12,15 @@ class Perceptron():
     """
 
     """
-    param inputMatrix:   A matrix N x m containing the input vector
+    :param inputMatrix:   A matrix N x m containing the input vector
                          that will be used to train the perceptron,
                          where N is the number of training examples
                          and m is the number of features that each
                          training example has
-    param answerMatrix:  A matrix N X 1 containing the right labels
+    :param answerMatrix:  A matrix N X 1 containing the right labels
                          for each input vector of the inputMatrix
                          variable
-    param numNeurons:    Number of output neurons that the network will
+    :param numNeurons:    Number of output neurons that the network will
                          possess. This number depends on the number of
                          possible outputs that the network can have
     """
@@ -39,6 +39,30 @@ class Perceptron():
     def feedForward(self):
         activation = dot(self.inputMatrix, self.weights)
         return where(activation > 0, 1, 0)
+
+    
+    """
+    Method used to update the weights of each output neuron based
+    on the given results of a training step. The error can be calculated by
+    the function:
+
+    wij -= n(yj - tj)*xi
+
+    where:
+
+        n  = learning rate
+        yi = correct label for the given input vector
+        tj = generated label for the given input vectoro
+        xi = feature associated with the given weight being updated
+
+    :param resultMatrix: A Nxn matrix that hold the obtained labels t for
+                        a certain training step.
+    :param learningRate: The learning rate that will be used on the weight
+                        update.
+    """
+    def updateWeights(self, resultMatrix, learningRate):
+        self.weights -= learningRate * dot(self.inputMatrix.T,
+                                           resultMatrix - self.answerMatrix)
 
     def trainPerceptron(self):
         pass
