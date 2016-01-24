@@ -14,9 +14,9 @@ def main():
     trainingData.addColumnOfOnes()
 
     print ("Initializing perceptron...\n")
-    numberOfNeuros = 1
+    numberOfNeurons = 1
     perceptron = Perceptron(trainingData.getXMatrix(), trainingData.y,
-                            numberOfNeuros)
+                            numberOfNeurons)
     perceptron.generateWeights()
 
     print ("Initial values:\n")
