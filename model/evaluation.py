@@ -24,6 +24,9 @@ class ConfusionMatrix(object):
     the sum of the whole matrix.
     """
 
+    _numLabels = None
+    _labelsIndex = None
+
     """
     :param inputLabels:  The labels that come with the data
                          used to train the machine learning algorithm.
@@ -42,8 +45,8 @@ class ConfusionMatrix(object):
         self.inputLabels = inputLabels
         self.outputLabels = outputLabels
         self.validLabels = validLabels
-        self._numLabels = validLabels
-        self._labelsIndex = validLabels
+        self._numLabels = len(validLabels)
+        self._labelsIndex = self.createLabelsIndex(validLabels)
 
     """
     Get method for num labels.
@@ -77,9 +80,13 @@ class ConfusionMatrix(object):
         y: 1
         z: 2
     }
+
+    :param validLabels: Ordered and possible labels that a datapoint
+                        can assume.
+
+    :return: The labels dictionary already explained.
     """
-    @labelsIndex.setter
-    def labelsIndex(self, validLabels):
+    def createLabelsIndex(self, validLabels):
         labelDict = {}
         indexValue = 0
 
@@ -87,7 +94,14 @@ class ConfusionMatrix(object):
             labelDict[label] = indexValue
             indexValue += 1
 
-        self._labelsIndex = labelDict
+        return labelDict
+
+    """
+    This method set labelsIndex as the return of createLabelsIndex.
+    """
+    @labelsIndex.setter
+    def labelsIndex(self, validLabels):
+        self._labelsIndex = self.createLabelsIndex(validLabels)
 
     """
     This method is used to create the confusion matrix values. However,
