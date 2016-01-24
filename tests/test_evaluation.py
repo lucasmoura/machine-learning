@@ -44,3 +44,31 @@ class ConfusionMatrixTest(unittest.TestCase):
         actualValues = self.confusionMatrix.confusionMatrixValues()
 
         self.compareArrays(expectedValues, actualValues)
+
+    def testCreateMatrixDisplayTopLabels(self):
+        expectedValue = "  | 0 | 1 |\n"
+        self.assertEqual(expectedValue,
+                         self.confusionMatrix.createMatrixDisplayTopLabels())
+
+        self.confusionMatrix.validLabels = ['X', 'Y', 'Z']
+        expectedValue = "  | X | Y | Z |\n"
+        self.assertEqual(expectedValue,
+                         self.confusionMatrix.createMatrixDisplayTopLabels())
+
+    def testCreateMatrixDisplayBody(self):
+        matrixValues = array([[0, 2], [0, 2]])
+        expectedValue = "0 | 0 | 2 |\n1 | 0 | 2 |\n"
+        actualValue = self.confusionMatrix.createMatrixDisplayBody(
+                matrixValues)
+
+        self.assertEqual(expectedValue, actualValue)
+
+        matrixValues = array([[1, 0, 0], [0, 1, 1], [1, 0, 1]])
+        expectedValue = "X | 1 | 0 | 0 |\nY | 0 | 1 | 1 |\nZ | 1 | 0 | 1 |\n"
+        validLabels = ['X', 'Y', 'Z']
+        self.confusionMatrix.validLabels = validLabels
+        self.confusionMatrix.labelsIndex = validLabels
+        actualValue = self.confusionMatrix.createMatrixDisplayBody(
+                matrixValues)
+
+        self.assertEqual(expectedValue, actualValue)
