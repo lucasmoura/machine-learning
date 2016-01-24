@@ -11,7 +11,7 @@ class PerceptronTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         trainingData = TrainingData()
-        trainingData.loadTrainingData('data/perceptron_or.txt', ' ')
+        trainingData.loadTrainingData('data/perceptron/perceptron_or.txt', ' ')
         trainingData.addColumnOfOnes()
 
         cls.x = trainingData.getXMatrix()
