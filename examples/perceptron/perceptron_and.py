@@ -26,7 +26,7 @@ def main():
     print perceptron.feedForward()
 
     print("\nTraining the network with 5 steps and learning rate of 0.25...")
-    numSteps = 5
+    numSteps = 10
     learningRate = 0.25
     perceptron.trainPerceptron(numSteps, learningRate)
 
