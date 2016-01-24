@@ -72,3 +72,16 @@ class ConfusionMatrixTest(unittest.TestCase):
                 matrixValues)
 
         self.assertEqual(expectedValue, actualValue)
+
+    def testGetAccuracy(self):
+        matrixValues = array([[2, 0], [0, 2]])
+        expectedValue = 1
+
+        self.assertEqual(expectedValue,
+                         self.confusionMatrix.getAccuracy(matrixValues))
+
+        matrixValues = array([[2, 2], [2, 2]])
+        expectedValue = 0.5
+
+        self.assertEqual(expectedValue,
+                         self.confusionMatrix.getAccuracy(matrixValues))
