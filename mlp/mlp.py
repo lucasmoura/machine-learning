@@ -1,5 +1,8 @@
 import numpy as np
 
+from model.utils import sigmoid
+
+
 class MultiLayerPerceptron:
 
     """
@@ -9,7 +12,7 @@ class MultiLayerPerceptron:
                         the network will have, including both input and output
                         layer.
     """
-    def __init__(self, layers):
+    def __init__(self, layers, activation_function=sigmoid):
         self.num_layers = len(layers)
 
         """
@@ -24,3 +27,14 @@ class MultiLayerPerceptron:
         self.weights = [np.random.randn(x, y)
                         for x, y in zip(layers[:-1], layers[1:])]
 
+        self.activation_function = activation_function
+
+    def feedForward(self, input_data):
+        a = input_data
+        activation_function = self.activation_function
+
+        for weight, bias in zip(self.weights, self.biases):
+            z = weight.T.dot(a) + bias
+            a = activation_function(z)
+
+        return a

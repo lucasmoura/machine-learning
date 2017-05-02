@@ -1,6 +1,7 @@
 import unittest
 
 from mlp.mlp import MultiLayerPerceptron
+from numpy import array
 
 
 class MultiLayerPerceptronTest(unittest.TestCase):
@@ -27,3 +28,19 @@ class MultiLayerPerceptronTest(unittest.TestCase):
 
         for index, weight in enumerate(weights):
             self.assertEqual(weight.shape, expectedShape[index])
+
+    def test_feed_forward(self):
+        self.mlp = MultiLayerPerceptron([1, 2, 3],
+                                        activation_function=lambda x: x)
+        input_data = array([[1]])
+
+        self.mlp.weights = [array([[1, 2]]), array([[1, 2, 3], [4, 5, 6]])]
+        self.mlp.biases = [array([[1], [1]]), array([[1], [2], [1]])]
+
+        expectedValues = array([[15], [21], [25]])
+        actualValues = self.mlp.feedForward(input_data)
+
+        self.assertEqual(expectedValues.shape, actualValues.shape)
+
+        for i in range(actualValues.shape[0]):
+            self.assertEqual(expectedValues[i, 0], actualValues[i, 0])
