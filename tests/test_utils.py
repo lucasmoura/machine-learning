@@ -1,7 +1,7 @@
 import unittest
-from model.utils import featureNormalization
+from model.utils import featureNormalization, sigmoid
 from math import floor, sqrt
-from numpy import array
+from numpy import array, nditer
 
 
 class TestRegressionUtils(unittest.TestCase):
@@ -33,3 +33,15 @@ class TestRegressionUtils(unittest.TestCase):
 
         for i in range(size):
             self.assertEqual(X_normalized[i, 0], expectedValue[i])
+
+    def testSigmoid(self):
+        value = 0
+        expectedValue = 0.5
+
+        self.assertEqual(sigmoid(value), expectedValue)
+
+        values = array([[1, 2], [-1, -2]])
+        actualValues = sigmoid(values)
+
+        for value in nditer(actualValues):
+            self.assertTrue(0 <= value <= 1)

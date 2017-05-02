@@ -1,4 +1,4 @@
-from numpy import mean, std
+from numpy import mean, std, exp
 
 
 def featureNormalization(X_inputs):
@@ -34,3 +34,7 @@ def featureNormalization(X_inputs):
     X_normalized = X_normalized/standard_deviation
 
     return (X_normalized, mean_features, standard_deviation)
+
+
+def sigmoid(values):
+    return 1.0 / (1.0 + exp(-values))
