@@ -1,5 +1,5 @@
 import unittest
-from model.utils import featureNormalization, sigmoid
+from model.utils import featureNormalization, sigmoid, mse
 from math import floor, sqrt
 from numpy import array, nditer
 
@@ -45,3 +45,28 @@ class TestRegressionUtils(unittest.TestCase):
 
         for value in nditer(actualValues):
             self.assertTrue(0 <= value <= 1)
+    
+    def testMse(self):
+        y = array([[1], [2], [3]])
+        y_hat = array([[2], [3], [4]])
+
+        expectedValue = 1
+        actualValue = mse(y, y_hat)
+
+        self.assertEqual(expectedValue, actualValue)
+
+        y = array([[1], [2], [3]])
+        y_hat = array([[1], [2], [3]])
+
+        expectedValue = 0
+        actualValue = mse(y, y_hat)
+
+        self.assertEqual(expectedValue, actualValue)
+
+        y = array([[1], [2], [3]])
+        y_hat = array([[3], [1], [5]])
+
+        expectedValue = 3
+        actualValue = mse(y, y_hat)
+
+        self.assertEqual(expectedValue, actualValue)
