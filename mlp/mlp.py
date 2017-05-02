@@ -18,4 +18,9 @@ class MultiLayerPerceptron:
         """
         self.biases = [np.random.randn(layer, 1) for layer in layers[1:]]
 
+        """
+        Create the weight for each hidden layer in the network
+        """
+        self.weights = [np.random.randn(x, y)
+                        for x, y in zip(layers[:-1], layers[1:])]
 
