@@ -1,5 +1,6 @@
 import unittest
-from model.utils import featureNormalization, sigmoid, sigmoid_derivative, mse
+from model.utils import (featureNormalization, sigmoid, sigmoid_derivative,
+                         mse, create_empty_copy_array)
 from math import floor, sqrt
 from numpy import array, nditer
 
@@ -76,3 +77,13 @@ class TestRegressionUtils(unittest.TestCase):
         actualValue = mse(y, y_hat)
 
         self.assertEqual(expectedValue, actualValue)
+
+    def testCreateEmptyCopyArray(self):
+        item_array = [array([[1], [2], [3]]), array([[1, 2, 3]])]
+        empty_array = create_empty_copy_array(item_array)
+
+        for item, empty in zip(item_array, empty_array):
+            self.assertEquals(item.shape, empty.shape)
+
+            for value in nditer(empty):
+                self.assertEqual(value, 0)

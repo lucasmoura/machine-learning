@@ -59,3 +59,7 @@ def mse(y, y_hat):
 
 def mse_derivative(y, y_hat):
     return y - y_hat
+
+
+def create_empty_copy_array(item_array):
+    return [np.zeros(item.shape) for item in item_array]
