@@ -36,8 +36,12 @@ def featureNormalization(X_inputs):
     return (X_normalized, mean_features, standard_deviation)
 
 
-def sigmoid(values):
-    return 1.0 / (1.0 + np.exp(-values))
+def sigmoid(value):
+    return 1.0 / (1.0 + np.exp(-value))
+
+
+def sigmoid_derivative(value):
+    return sigmoid(value) * (1 - sigmoid(value))
 
 
 def mse(y, y_hat):
