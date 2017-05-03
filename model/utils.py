@@ -45,4 +45,17 @@ def sigmoid_derivative(value):
 
 
 def mse(y, y_hat):
-    return np.mean(np.square(y - y_hat))
+    """
+        Calculate the Minimum Square Error cost for a range of predictions.
+
+        :param y:       The predictions created by a machine learning model
+        :param y_hat:   The real predictions for the data feed to the machine
+                        learning model.
+
+        :returns: The metric value for the given predictions.
+    """
+    return np.mean(np.square(y_hat - y))
+
+
+def mse_derivative(y, y_hat):
+    return y - y_hat
