@@ -49,7 +49,27 @@ class MultiLayerPerceptron:
 
         return a
 
-    def backpropagation(self, input_data, prediction):
+    def backprogation_matrix(self, batch):
+        data_batch, prediction_batch = batch[0]
+        for data, prediction in batch[1:]:
+            data_batch = np.concatenate((data_batch, data), axis=1)
+            prediction_batch = np.concatenate((prediction_batch, prediction),
+                                              axis=1)
+
+        a = data_batch
+        a_values = [a]
+        z_values = []
+
+        for weight, bias in zip(self.weights, self.biases):
+            z = weight.T.dot(a) + bias
+            z_values.append(z)
+            a = self.activation_function(z)
+            a_values.append(a)
+
+        return self.calculate_weigth_and_bias_delta(
+            a_values, z_values, prediction_batch)
+
+    def calculate_weigth_and_bias_delta(self, a_values, z_values, prediction):
         activation_derivative = eval(
             self.activation_function.__name__ + '_derivative')
         cost_derivative = eval(
@@ -57,9 +77,6 @@ class MultiLayerPerceptron:
 
         update_biases = create_empty_copy_array(self.biases)
         update_weights = create_empty_copy_array(self.weights)
-
-        a, a_values, z_values = self.feedForward(
-            input_data, intermediate_values=True)
 
         error = (cost_derivative(a_values[-1], prediction) *
                  activation_derivative(z_values[-1]))
@@ -75,6 +92,12 @@ class MultiLayerPerceptron:
             update_weights[-layer] = a_values[-layer-1].dot(error.T)
 
         return (update_biases, update_weights)
+
+    def backpropagation(self, input_data, prediction):
+        _, a_values, z_values = self.feedForward(
+            input_data, intermediate_values=True)
+        return self.calculate_weigth_and_bias_delta(
+            a_values, z_values, prediction)
 
     def sgd(self, training_data, batch_size, epochs,
             learning_rate, test_data=None):
@@ -99,7 +122,7 @@ class MultiLayerPerceptron:
                     epoch, self.evaluate(test_data), n_test))
             else:
                 print("Epoch {} complete".format(epoch))
-        
+
     def update_batch(self, batch, learning_rate):
         update_biases = create_empty_copy_array(self.biases)
         update_weights = create_empty_copy_array(self.weights)
@@ -118,6 +141,15 @@ class MultiLayerPerceptron:
         self.weights = [w - (learning_rate / size) * grad_w
                         for w, grad_w in zip(self.weights, update_weights)]
         self.biases = [b - (learning_rate / size) * grad_b
+                       for b, grad_b in zip(self.biases, update_biases)]
+
+    def update_batch_matrix(self, batch, learning_rate):
+        update_biases, update_weights = self.backprogation_matrix(batch)
+        total = len(batch)
+        factor = learning_rate / total
+        self.weights = [w - (factor) * grad_w
+                        for w, grad_w in zip(self.weights, update_weights)]
+        self.biases = [b - (factor) * (np.sum(grad_b, axis=1)).reshape(b.shape)
                        for b, grad_b in zip(self.biases, update_biases)]
 
     def evaluate(self, test_data):
