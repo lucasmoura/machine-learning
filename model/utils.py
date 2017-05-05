@@ -65,5 +65,9 @@ def cross_entropy(y, y_hat):
     return -np.sum(y_hat * np.log(y) + (1 - y_hat) * np.log(1 - y))
 
 
+def cross_entropy_derivative(y, y_hat):
+    return -((y_hat / y) + ((y_hat - 1) / (1 - y)))
+
+
 def create_empty_copy_array(item_array):
     return [np.zeros(item.shape) for item in item_array]
