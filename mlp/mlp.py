@@ -2,6 +2,7 @@ import numpy as np
 import random
 
 from model.utils import (sigmoid, sigmoid_derivative, mse, mse_derivative,
+                         cross_entropy, cross_entropy_derivative,
                          create_empty_copy_array)
 
 
@@ -14,7 +15,8 @@ class MultiLayerPerceptron:
                         the network will have, including both input and output
                         layer.
     """
-    def __init__(self, layers, activation_function=sigmoid, cost_function=mse):
+    def __init__(self, layers, activation_function='sigmoid',
+                 cost_function='mse'):
         self.num_layers = len(layers)
 
         """
@@ -29,8 +31,8 @@ class MultiLayerPerceptron:
         self.weights = [np.random.randn(x, y)
                         for x, y in zip(layers[:-1], layers[1:])]
 
-        self.activation_function = activation_function
-        self.cost_function = cost_function
+        self.activation_function = eval(activation_function)
+        self.cost_function = eval(cost_function)
 
     def feedForward(self, input_data, intermediate_values=False):
         z_values, a_values = [], []

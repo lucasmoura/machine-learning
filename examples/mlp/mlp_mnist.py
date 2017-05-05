@@ -5,10 +5,11 @@ import cPickle as pickle
 import config
 from mlp.mlp import MultiLayerPerceptron
 
+
 def create_data():
     with gzip.open(config.MNIST_DATA) as mnist_data:
         training_data, validation_data, test_data = pickle.load(mnist_data)
-    
+
     return (training_data, validation_data, test_data)
 
 
@@ -47,10 +48,10 @@ def create_mnist_data():
 
 def main():
     training_data, validation_data, test_data = create_mnist_data()
-    layers = [784, 100, 10]
+    layers = [784, 30, 10]
 
-    mlp = MultiLayerPerceptron(layers)
-    mlp.sgd(training_data, 10, 5, 3.0, test_data=test_data)
+    mlp = MultiLayerPerceptron(layers, cost_function='cross_entropy')
+    mlp.sgd(training_data, 10, 5, 0.5, test_data=test_data)
 
 
 if __name__ == '__main__':
