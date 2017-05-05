@@ -1,8 +1,8 @@
 import unittest
 from model.utils import (featureNormalization, sigmoid, sigmoid_derivative,
-                         mse, create_empty_copy_array)
+                         mse, create_empty_copy_array, cross_entropy)
 from math import floor, sqrt
-from numpy import array, nditer
+from numpy import array, nditer, arange, log
 
 
 class TestRegressionUtils(unittest.TestCase):
@@ -77,6 +77,20 @@ class TestRegressionUtils(unittest.TestCase):
         actualValue = mse(y, y_hat)
 
         self.assertEqual(expectedValue, actualValue)
+
+    def testCrossEntropy(self):
+        y = arange(10, dtype='float64').reshape((10, 1))
+        y[:, :] = 0.01
+        y[4, 0] = 0.98
+
+        y_hat = arange(10, dtype='float64').reshape((10, 1))
+        y_hat[:, :] = 0
+        y_hat[5, 0] = 1
+
+        expectedValue = -1 * ((log(0.99) * 8) + log(0.02) + log(0.01))
+        actualValue = cross_entropy(y, y_hat)
+        self.assertTrue(
+            expectedValue - 0.0002 <= actualValue <= expectedValue + 0.0002)
 
     def testCreateEmptyCopyArray(self):
         item_array = [array([[1], [2], [3]]), array([[1, 2, 3]])]
