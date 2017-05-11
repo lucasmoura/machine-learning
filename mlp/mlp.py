@@ -102,7 +102,7 @@ class MultiLayerPerceptron:
             a_values, z_values, prediction)
 
     def sgd(self, training_data, batch_size, epochs,
-            learning_rate, test_data=None):
+            learning_rate, lambda_value=5.0, test_data=None):
         if test_data:
             n_test = len(test_data)
 
@@ -117,7 +117,8 @@ class MultiLayerPerceptron:
             ]
 
             for batch in mini_batches:
-                self.update_batch(batch, learning_rate)
+                self.update_batch_matrix(
+                    batch, learning_rate, num_data, lambda_value)
 
             if test_data:
                 print("Epoch {}: {} / {}".format(
@@ -125,7 +126,10 @@ class MultiLayerPerceptron:
             else:
                 print("Epoch {} complete".format(epoch))
 
-    def update_batch(self, batch, learning_rate):
+    def regularization(self, learning_rate, lambd, training_size):
+        return 1 - ((learning_rate * lambd) / training_size)
+
+    def update_batch(self, batch, learning_rate, num_training, lambda_value):
         update_biases = create_empty_copy_array(self.biases)
         update_weights = create_empty_copy_array(self.weights)
         size = len(batch)
@@ -145,12 +149,17 @@ class MultiLayerPerceptron:
         self.biases = [b - (learning_rate / size) * grad_b
                        for b, grad_b in zip(self.biases, update_biases)]
 
-    def update_batch_matrix(self, batch, learning_rate):
+    def update_batch_matrix(self, batch, learning_rate,
+                            num_training, lambd=5.0):
         update_biases, update_weights = self.backprogation_matrix(batch)
         total = len(batch)
         factor = learning_rate / total
-        self.weights = [w - (factor) * grad_w
-                        for w, grad_w in zip(self.weights, update_weights)]
+        self.weights = [
+            (self.regularization(learning_rate, lambd, num_training) * w) -
+            (factor * grad_w) for w, grad_w in zip(
+                self.weights, update_weights)
+        ]
+
         self.biases = [b - (factor) * (np.sum(grad_b, axis=1)).reshape(b.shape)
                        for b, grad_b in zip(self.biases, update_biases)]
 
