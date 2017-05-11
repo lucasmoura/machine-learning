@@ -51,7 +51,13 @@ def main():
     layers = [784, 30, 10]
 
     mlp = MultiLayerPerceptron(layers, cost_function='cross_entropy')
-    mlp.sgd(training_data, 10, 5, 0.5, test_data=test_data)
+    mlp.sgd(
+        training_data=training_data,
+        batch_size=10,
+        epochs=30,
+        learning_rate=0.5,
+        lambda_value=5.0,
+        test_data=test_data)
 
 
 if __name__ == '__main__':
